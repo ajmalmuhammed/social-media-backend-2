@@ -1,0 +1,46 @@
+version: '4.0'
+
+services:
+  mysqldb:
+    image: mysql
+    container_name: mysqlcontainer
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - local_network
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 5s
+      retries: 1
+
+  app:
+    build: .
+    container_name: social-media-container
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      PORT: $PORT
+      DB_TYPE: $DB_TYPE
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_USER: $DB_USER
+      DB_PASS: $DB_PASS
+      DB_NAME: $DB_NAME
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    driver: bridge
+
+volumes:
+  db:
