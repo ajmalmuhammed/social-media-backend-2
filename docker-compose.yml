@@ -3,7 +3,7 @@ version: '4.0'
 services:
   mysqldb:
     image: mysql
-    container_name: mysqlcontainer
+    container_name: $DB_HOST
     restart: unless-stopped
     env_file: .env
     ports:
@@ -20,7 +20,7 @@ services:
   app:
     build: .
     container_name: social-media-container
-    restart: unless-stopped
+    restart: always
     env_file: .env
     depends_on:
       mysqldb:
@@ -37,6 +37,8 @@ services:
       DB_NAME: $DB_NAME
     networks:
       - local_network
+    volumes:
+      - .:/app
 
 networks:
   local_network:
