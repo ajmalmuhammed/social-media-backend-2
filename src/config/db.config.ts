@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm'
 import dotenv from 'dotenv'
+import { envVariables } from './initilize-env-variables.config'
 declare let process: {
   env: {
     DB_TYPE: 'mysql' | 'postgres'
@@ -14,12 +15,12 @@ declare let process: {
 dotenv.config()
 
 const connectDB = new DataSource({
-  type: process.env.DB_TYPE,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  type: envVariables.DB_TYPE,
+  host: envVariables.DB_HOST,
+  port: envVariables.DB_PORT,
+  username: envVariables.DB_USER,
+  password: envVariables.DB_PASS,
+  database: envVariables.DB_NAME,
   // logging: true,
   synchronize: true,
   entities: ['./src/entities/**/*.ts'],
