@@ -13,21 +13,6 @@ declare let process: {
 
 dotenv.config()
 
-console.log(
-  'Connection to the DB  $$$$$$=> ',
-  process.env.DB_TYPE +
-    ' ' +
-    process.env.DB_HOST +
-    ' ' +
-    process.env.DB_PORT +
-    ' ' +
-    process.env.DB_USER +
-    ' ' +
-    process.env.DB_PASS +
-    ' ' +
-    process.env.DB_NAME +
-    ' '
-)
 const connectDB = new DataSource({
   type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
@@ -36,8 +21,8 @@ const connectDB = new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   // logging: true,
-  //   synchronize: true,
-  //   entities: ['./src/models/**/*.ts'],
+  synchronize: true,
+  entities: ['./src/entities/**/*.ts'],
   extra: {
     ssl: {
       rejectUnauthorized: false,
