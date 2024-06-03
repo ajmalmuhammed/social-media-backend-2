@@ -4,7 +4,7 @@ import { envVariables } from './initilize-env-variables-config'
 let transporter: nodemailer.Transporter
 
 export const initMailer = () => {
-  const transporter = nodemailer.createTransport({
+  transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: `${envVariables.EMAIL_ID}`,

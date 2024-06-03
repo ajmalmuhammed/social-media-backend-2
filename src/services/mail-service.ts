@@ -8,6 +8,7 @@ import {
 } from '../templates/login-email-template'
 import { getTransporter } from '../config/mailer-config'
 import { envVariables } from '../config/initilize-env-variables-config'
+import { emailTypeEnum } from '../common/constants'
 
 interface MailOptions {
   from: string
@@ -24,10 +25,10 @@ export async function sendEmail(type: string, emailId: string, otp: string) {
   //Choosing the message template based on type of request
 
   console.log('This is a ', type)
-  if (type == 'VERIFY') {
+  if (type == emailTypeEnum.VERIFY) {
     messageBody = getVerifyEmailMessageBody(otp)
     messageSubject = verifyEmailSubject
-  } else if (type == 'LOGIN') {
+  } else if (type == emailTypeEnum.LOGIN) {
     messageBody = getLoginEmailMessageBody(otp)
     messageSubject = loginEmailSubject
   }

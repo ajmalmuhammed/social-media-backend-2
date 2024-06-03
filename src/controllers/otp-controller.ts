@@ -1,12 +1,17 @@
-import { Request, Response } from 'express'
-import { decode } from '../middlewares/crypt'
-import { Otp } from '../entities/otp-entity'
-import { User } from '../entities/user-entity'
+import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { connectDB } from '../config/db-config'
 import { envVariables } from '../config/initilize-env-variables-config'
+import { Otp } from '../entities/otp-entity'
+import { User } from '../entities/user-entity'
+import { decode } from '../middlewares/crypt'
+import CustomError from '../middlewares/error'
 
-export const verifyOTP = async (req: Request, res: Response) => {
+export const verifyOTP = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const currentDate = new Date()
     const { verification_key, otp, email } = req.body
@@ -40,10 +45,9 @@ export const verifyOTP = async (req: Request, res: Response) => {
     const emailFromToken = obj.email
 
     if (emailFromToken !== email) {
-      return res.status(400).json({
-        Status: 'Failure',
-        Reason: 'Use the correct OTP associated with this email',
-      })
+      next(
+        new CustomError('Use the correct OTP associated with this email', 400)
+      )
     }
 
     const otpRepo = connectDB.getRepository(Otp)
@@ -55,33 +59,27 @@ export const verifyOTP = async (req: Request, res: Response) => {
     })
 
     if (!userFromDB) {
-      return res
-        .status(400)
-        .json({ Status: 'Failure', Reason: 'Please sign up first' })
+      next(new CustomError('Please register first', 400))
+      return
     }
-
     if (!otpFromDB) {
-      return res.status(400).json({ Status: 'Failure', Reason: 'Bad Request' })
+      next(new CustomError('Bad request', 400))
+      return
     }
 
     if (otpFromDB.used) {
-      return res.status(400).json({
-        Status: 'Failure',
-        Reason: 'OTP already used! Please request new OTP',
-      })
+      next(new CustomError('OTP already used! Please request new OTP', 400))
+      return
     }
 
     if (compareDates(otpFromDB.expiresAt, currentDate) !== 1) {
-      return res.status(400).json({
-        Status: 'Failure',
-        Reason: 'OTP Expired! Please request new OTP',
-      })
+      next(new CustomError('OTP Expired! Please request new OTP', 400))
+      return
     }
 
     if (otp !== otpFromDB.otp) {
-      return res
-        .status(400)
-        .json({ Status: 'Failure', Reason: 'OTP NOT Matched' })
+      next(new CustomError('OTP not matched', 400))
+      return
     }
 
     otpFromDB.used = true
@@ -113,7 +111,8 @@ export const verifyOTP = async (req: Request, res: Response) => {
       lastName: userFromDB.lastName,
     })
   } catch (err: any) {
-    return res.status(400).json({ Status: 'Failure', Reason: err.message })
+    console.error(err)
+    next(new CustomError())
   }
 }
 

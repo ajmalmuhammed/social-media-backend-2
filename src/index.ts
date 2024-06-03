@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import authRoutes from './routes/auth'
+import authRoutes from './routes/auth-routes'
 import { initializeDB } from './config/db-config'
 import { errorMiddleware } from './middlewares/error'
 import { initMailer } from './config/mailer-config'

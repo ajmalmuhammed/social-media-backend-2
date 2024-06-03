@@ -1,4 +1,4 @@
-const enum emailTypeEnum {
+export const enum emailTypeEnum {
   VERIFY = 'verify',
   LOGIN = 'login',
 }
