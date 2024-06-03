@@ -30,14 +30,14 @@ const connectDB = new DataSource({
     },
   },
 })
-
-connectDB
-  .initialize()
-  .then(() => {
+const initializeDB = async () => {
+  try {
+    await connectDB.initialize()
     console.log('Data Source has been initialized!')
-  })
-  .catch((err: any) => {
-    console.error('Error during Data Source initialization', err)
-  })
+  } catch (error) {
+    console.error('Error during Data Source initialization', error)
+    throw error
+  }
+}
 
-export default connectDB
+export { connectDB, initializeDB }

@@ -3,11 +3,11 @@ import otpGenerator from 'otp-generator'
 import express, { NextFunction } from 'express'
 
 import { Request, Response } from 'express'
-import connectDB from '../config/db.config'
 import { Otp } from '../entities/Otp.entity'
 import { User } from '../entities/User.entity'
 import { sendEmail } from '../services/mail.service'
 import { encode } from '../middlewares/Crypt'
+import { connectDB } from '../config/db.config'
 
 //login
 export const login = async (
