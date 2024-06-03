@@ -107,7 +107,7 @@ export const verifyOTP = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({
-      status: 'Account verification successfull',
+      status: 'Login successful',
       email: email,
       firstName: userFromDB.firstName,
       lastName: userFromDB.lastName,
