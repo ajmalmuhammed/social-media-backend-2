@@ -1,5 +1,5 @@
 import { Entity, Column } from 'typeorm'
-import StandardEntity from './Standard.entity'
+import StandardEntity from './standard-entity'
 
 @Entity()
 export class Otp extends StandardEntity {

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { decode } from '../middlewares/Crypt'
-import { Otp } from '../entities/Otp.entity'
-import { User } from '../entities/User.entity'
+import { decode } from '../middlewares/crypt'
+import { Otp } from '../entities/otp-entity'
+import { User } from '../entities/user-entity'
 import jwt from 'jsonwebtoken'
-import { envVariables } from '../config/initilize-env-variables.config'
-import { connectDB } from '../config/db.config'
+import { connectDB } from '../config/db-config'
+import { envVariables } from '../config/initilize-env-variables-config'
 
 export const verifyOTP = async (req: Request, res: Response) => {
   try {

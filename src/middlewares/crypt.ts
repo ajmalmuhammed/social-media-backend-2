@@ -1,6 +1,5 @@
 import crypto from 'crypto'
-import dotenv from 'dotenv'
-import { envVariables } from '../config/initilize-env-variables.config'
+import { envVariables } from '../config/initilize-env-variables-config'
 
 var ivstring = Buffer.from(envVariables.INITIAL_VECTOR)
 var password = envVariables.CRYPTO_PASSWORD

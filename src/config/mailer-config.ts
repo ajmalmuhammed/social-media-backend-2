@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { envVariables } from './initilize-env-variables.config'
+import { envVariables } from './initilize-env-variables-config'
 
 let transporter: nodemailer.Transporter
 

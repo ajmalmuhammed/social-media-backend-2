@@ -1,10 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth'
-import { initializeDB } from './config/db.config'
-import { errorMiddleware } from './middlewares/Error'
-import { initMailer } from './config/mailer.config'
-import { envVariables } from './config/initilize-env-variables.config'
+import { initializeDB } from './config/db-config'
+import { errorMiddleware } from './middlewares/error'
+import { initMailer } from './config/mailer-config'
+import { envVariables } from './config/initilize-env-variables-config'
 
 const app = express()
 

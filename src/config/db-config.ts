@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
 import dotenv from 'dotenv'
-import { envVariables } from './initilize-env-variables.config'
+import { envVariables } from './initilize-env-variables-config'
 declare let process: {
   env: {
     DB_TYPE: 'mysql' | 'postgres'

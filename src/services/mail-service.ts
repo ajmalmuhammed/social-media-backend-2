@@ -6,8 +6,8 @@ import {
   getLoginEmailMessageBody,
   loginEmailSubject,
 } from '../templates/login-email-template'
-import { getTransporter } from '../config/mailer.config'
-import { envVariables } from '../config/initilize-env-variables.config'
+import { getTransporter } from '../config/mailer-config'
+import { envVariables } from '../config/initilize-env-variables-config'
 
 interface MailOptions {
   from: string
