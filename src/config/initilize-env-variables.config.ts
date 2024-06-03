@@ -1,8 +1,9 @@
 import dotenv from 'dotenv'
 
 type DBType = 'mysql' | 'postgres' | 'mongodb'
-
+type NodeEnv = 'prod' | 'dev'
 interface EnvVariables {
+  ENV: NodeEnv
   PORT: number
   DB_TYPE: DBType
   DB_HOST: string
@@ -14,6 +15,7 @@ interface EnvVariables {
   EMAIL_PASSWORD: string
   INITIAL_VECTOR: string
   CRYPTO_PASSWORD: string
+  JWT_SECRET: string
 }
 
 // Load environment variables
@@ -24,6 +26,7 @@ if (result.error) {
 }
 
 const {
+  ENV,
   PORT,
   DB_TYPE,
   DB_HOST,
@@ -35,9 +38,11 @@ const {
   EMAIL_PASSWORD,
   INITIAL_VECTOR,
   CRYPTO_PASSWORD,
+  JWT_SECRET,
 } = process.env
 
 if (
+  !ENV ||
   !PORT ||
   !DB_TYPE ||
   !DB_HOST ||
@@ -48,12 +53,14 @@ if (
   !EMAIL_ID ||
   !EMAIL_PASSWORD ||
   !INITIAL_VECTOR ||
-  !CRYPTO_PASSWORD
+  !CRYPTO_PASSWORD ||
+  !JWT_SECRET
 ) {
   throw new Error('Required environment variables are missing.')
 }
 
 export const envVariables: EnvVariables = {
+  ENV: ENV as NodeEnv,
   PORT: parseInt(PORT, 10),
   DB_TYPE: DB_TYPE as DBType,
   DB_HOST,
@@ -65,4 +72,5 @@ export const envVariables: EnvVariables = {
   EMAIL_PASSWORD,
   INITIAL_VECTOR,
   CRYPTO_PASSWORD,
+  JWT_SECRET,
 }
