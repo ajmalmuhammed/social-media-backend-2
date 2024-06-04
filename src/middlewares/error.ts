@@ -38,6 +38,8 @@ const getSafeErrorMessage = (err: CustomError): string => {
   }
 
   const safeMessage = safeErrorMessages[err.message]
-
+  if (!safeMessage) {
+    console.error(err)
+  }
   return safeMessage || 'Something went wrong. Please try again later.'
 }
