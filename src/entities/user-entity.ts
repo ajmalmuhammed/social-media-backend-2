@@ -4,7 +4,7 @@ import StandardEntity from './standard-entity'
 @Entity()
 export class User extends StandardEntity {
   @Column()
-  email: string
+  emailId: string
 
   @Column()
   firstName: string

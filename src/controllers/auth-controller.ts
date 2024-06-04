@@ -16,17 +16,19 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const emailId = req.body.email
+    const emailId = req.body.emailId
 
     if (!emailId || emailId == '') {
       next(new CustomError('InvalidInputDataError', 400))
     }
     const userRepo = connectDB.getRepository(User)
-    const user = await userRepo.findOne({ where: { email: req.body.email } })
+    const user = await userRepo.findOne({
+      where: { emailId: req.body.emailId },
+    })
 
     if (user) {
       const { otp, encryptedData } = await generateOTPAndEncode(emailId)
-      await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
+      // await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
 
       return res.send({ success: true, key: encryptedData })
     } else {
@@ -43,7 +45,7 @@ export const register = async (
   res: Response,
   next: NextFunction
 ) => {
-  const emailId = req.body.email
+  const emailId = req.body.emailId
   const firstName = req.body.firstName
   const lastName = req.body.lastName
 
@@ -61,20 +63,23 @@ export const register = async (
     const userRepo = connectDB.getRepository(User)
 
     //check if email already exists in db
-    const user = await userRepo.findOne({ where: { email: req.body.email } })
+    const user = await userRepo.findOne({
+      where: { emailId: req.body.emailId },
+    })
 
     if (user) {
       next(new CustomError('UserExistsError', 400))
     } else {
       const user = await userRepo.save({
-        email: req.body.email,
+        emailId: req.body.emailId,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
       })
     }
 
     const { otp, encryptedData } = await generateOTPAndEncode(emailId)
-    await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
+    // await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
+    console.log('This is the OTP', otp)
 
     return res.send({ success: true, key: encryptedData })
   } catch (err: any) {
@@ -110,7 +115,7 @@ export async function generateOTPAndEncode(emailId: string) {
   // Create details object containing the email and otp id
   const details = {
     timestamp: new Date(),
-    email: emailId,
+    emailId: emailId,
     success: true,
     message: 'OTP sent to user',
     otp_id: otp_instance.id,

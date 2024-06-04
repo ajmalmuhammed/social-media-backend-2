@@ -35,6 +35,7 @@ const getSafeErrorMessage = (err: CustomError): string => {
     InvalidInputDataError: 'Please provide all the mandatory fields',
     OTPExpiredError: 'OTP Expired! Please request new OTP',
     AuthenticationError: 'Authentication failed. Please try again',
+    UserExistsError: 'User already registered. Please login',
   }
 
   const safeMessage = safeErrorMessages[err.message]

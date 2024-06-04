@@ -21,9 +21,9 @@ export const verifyOTP = async (
   let transactionalEntityManager: EntityManager | null = null
   try {
     const currentDate = new Date()
-    const { verification_key, otp, email } = req.body
+    const { verification_key, otp, emailId } = req.body
 
-    if (!verification_key || !otp || !email) {
+    if (!verification_key || !otp || !emailId) {
       return next(new CustomError('InvalidInputDataError', 400))
     }
 
@@ -31,13 +31,13 @@ export const verifyOTP = async (
     try {
       decoded = await decode(verification_key)
     } catch (err) {
-      return next(new CustomError())
+      return next(err)
     }
 
     const obj = JSON.parse(decoded as string)
-    const emailFromToken = obj.email
+    const emailFromToken = obj.emailId
 
-    if (emailFromToken !== email) {
+    if (emailFromToken !== emailId) {
       return next(new CustomError('AuthenticationError', 400))
     }
 
@@ -47,7 +47,7 @@ export const verifyOTP = async (
 
     const otpFromDB = await otpRepo.findOne({ where: { id: obj.otp_id } })
     const userFromDB = await userRepo.findOne({
-      where: { email: emailFromToken },
+      where: { emailId: emailFromToken },
     })
 
     if (!userFromDB) {
@@ -66,14 +66,14 @@ export const verifyOTP = async (
     }
 
     if (otp !== otpFromDB.otp) {
-      return next(new CustomError('OTP not matched', 400))
+      return next(new CustomError('AuthenticationError', 400))
     }
 
     otpFromDB.used = true
     await otpRepo.save(otpFromDB)
 
     const userId = userFromDB.id
-    const token = jwt.sign({ email, userId }, envVariables.JWT_SECRET, {
+    const token = jwt.sign({ emailId, userId }, envVariables.JWT_SECRET, {
       expiresIn: '25 days',
     })
 
@@ -88,7 +88,7 @@ export const verifyOTP = async (
     return res.status(200).json({
       success: true,
       status: 'Login successful',
-      email: email,
+      emailId: emailId,
       firstName: userFromDB.firstName,
       lastName: userFromDB.lastName,
     })
