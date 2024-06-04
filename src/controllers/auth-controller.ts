@@ -6,7 +6,7 @@ import { Otp } from '../entities/otp-entity'
 import { User } from '../entities/user-entity'
 import { encode } from '../middlewares/crypt'
 import { sendEmail } from '../services/mail-service'
-import { emailTypeEnum } from '../common/constants'
+import { emailTypeEnum } from '../utils/constants'
 import CustomError from '../middlewares/error'
 
 //login

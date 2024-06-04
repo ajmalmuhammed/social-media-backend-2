@@ -8,7 +8,7 @@ import {
 } from '../templates/login-email-template'
 import { getTransporter } from '../config/mailer-config'
 import { envVariables } from '../config/initilize-env-variables-config'
-import { emailTypeEnum } from '../common/constants'
+import { emailTypeEnum } from '../utils/constants'
 
 interface MailOptions {
   from: string
