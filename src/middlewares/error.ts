@@ -11,11 +11,13 @@ export default class CustomError extends Error {
 
 export const errorMiddleware = (
   err: CustomError,
-  eq: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  err.message = err.message || 'Internal Server Error'
+  const errorMessage = getSafeErrorMessage(err)
+
+  err.message = errorMessage
   err.statusCode = err.statusCode || 500
 
   return res.status(err.statusCode).json({
@@ -23,4 +25,19 @@ export const errorMiddleware = (
     status: err.statusCode,
     message: err.message,
   })
+}
+
+// Helper function to determine safe error message to send to users
+const getSafeErrorMessage = (err: CustomError): string => {
+  const safeErrorMessages: { [key: string]: string } = {
+    NoUserFoundError: 'No user found with the email. Please register first.',
+    AccessDeniedError: 'Access denied. Please log in first.',
+    InvalidInputDataError: 'Please provide all the mandatory fields',
+    OTPExpiredError: 'OTP Expired! Please request new OTP',
+    AuthenticationError: 'Authentication failed. Please try again',
+  }
+
+  const safeMessage = safeErrorMessages[err.message]
+
+  return safeMessage || 'Something went wrong. Please try again later.'
 }

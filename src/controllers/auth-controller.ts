@@ -19,7 +19,7 @@ export const login = async (
     const emailId = req.body.email
 
     if (!emailId || emailId == '') {
-      next(new CustomError('Email cannot be blank', 400))
+      next(new CustomError('InvalidInputDataError', 400))
     }
     const userRepo = connectDB.getRepository(User)
     const user = await userRepo.findOne({ where: { email: req.body.email } })
@@ -30,7 +30,7 @@ export const login = async (
 
       return res.send({ success: true, key: encryptedData })
     } else {
-      next(new CustomError('Please register first', 400))
+      next(new CustomError('NoUserFoundError', 400))
     }
   } catch (err: any) {
     console.error(err)
@@ -56,7 +56,7 @@ export const register = async (
       !lastName ||
       lastName == ''
     ) {
-      next(new CustomError('Required fields cannot be blank', 400))
+      next(new CustomError('InvalidInputDataError', 400))
     }
     const userRepo = connectDB.getRepository(User)
 
@@ -64,7 +64,7 @@ export const register = async (
     const user = await userRepo.findOne({ where: { email: req.body.email } })
 
     if (user) {
-      next(new CustomError('Email already exists', 400))
+      next(new CustomError('UserExistsError', 400))
     } else {
       const user = await userRepo.save({
         email: req.body.email,
