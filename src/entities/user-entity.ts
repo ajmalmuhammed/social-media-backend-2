@@ -11,7 +11,4 @@ export class User extends StandardEntity {
 
   @Column()
   lastName: string
-
-  @Column({ type: 'boolean', default: false })
-  isVerified: boolean
 }

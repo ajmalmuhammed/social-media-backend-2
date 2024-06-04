@@ -83,13 +83,6 @@ export const verifyOTP = async (
       secure: process.env.ENV === 'prod',
     })
 
-    if (!userFromDB.isVerified) {
-      userFromDB.isVerified = true
-      await userRepo.save(userFromDB)
-      return res
-        .status(200)
-        .json({ Status: 'Account verification successful', Email: email })
-    }
     await commitTransaction(transactionalEntityManager)
 
     return res.status(200).json({
