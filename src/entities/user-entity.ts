@@ -1,14 +1,13 @@
 import {
-  Entity,
   Column,
-  OneToMany,
-  ManyToMany,
+  Entity,
   JoinTable,
-  OneToOne,
+  ManyToMany,
+  OneToMany
 } from 'typeorm'
+import { Post } from './post-entity's
+import { PostLike } from './post-likes-entity'
 import StandardEntity from './standard-entity'
-import { Post } from './post-entity'
-import { PostLike as PostLike } from './post-likes-entity'
 
 @Entity()
 export class User extends StandardEntity {

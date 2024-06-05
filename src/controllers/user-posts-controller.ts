@@ -54,8 +54,9 @@ export const likePost = async (
     if (!post) {
       return next(new CustomError('EntryNotFoundError', 400))
     }
-    const liked = post?.likedBy.filter((user) => user.id === userId)
-    if (liked !== undefined && liked?.length > 0) {
+
+    const existingLike = post?.likedBy.filter((user) => user.id === userId)
+    if (existingLike !== undefined && existingLike?.length > 0) {
       return next(new CustomError('AlreadyLikedError', 400))
     } else {
       const newPostLike = new PostLike(authenticatedUser, post)
