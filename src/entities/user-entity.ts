@@ -1,11 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany
-} from 'typeorm'
-import { Post } from './post-entity's
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
+import { Post } from './post-entity'
 import { PostLike } from './post-likes-entity'
 import StandardEntity from './standard-entity'
 
