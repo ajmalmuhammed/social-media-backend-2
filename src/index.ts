@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import profileRoutes from './routes/profile-routes'
+import userPostRoutes from './routes/user-post-routes'
 import authRoutes from './routes/auth-routes'
 import { initializeDB } from './config/db-config'
 import { errorMiddleware } from './middlewares/error'
@@ -19,6 +20,7 @@ app.use(cookieParser())
 
 app.use('/api', authRoutes)
 app.use('/api', profileRoutes)
+app.use('/api', userPostRoutes)
 app.use(errorMiddleware)
 initMailer()
 

@@ -35,8 +35,7 @@ export const login = async (
       next(new CustomError('NoUserFoundError', 400))
     }
   } catch (err: any) {
-    console.error(err)
-    next(new CustomError())
+    next(err)
   }
 }
 

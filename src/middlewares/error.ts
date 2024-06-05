@@ -36,6 +36,8 @@ const getSafeErrorMessage = (err: CustomError): string => {
     OTPExpiredError: 'OTP Expired! Please request new OTP',
     AuthenticationError: 'Authentication failed. Please try again',
     UserExistsError: 'User already registered. Please login',
+    EntryNotFoundError: 'Entry not found. Please try with valid ID',
+    AlreadyLikedError: 'User has already liked the post',
   }
 
   const safeMessage = safeErrorMessages[err.message]

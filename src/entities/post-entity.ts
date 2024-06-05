@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne } from 'typeorm'
+import { Entity, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm'
 import StandardEntity from './standard-entity'
 import { User } from './user-entity'
 
@@ -11,10 +11,14 @@ export class Post extends StandardEntity {
   content: string
 
   @Column({ type: 'integer', default: 0 })
-  likes: number
+  like_count: number
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user)
   user: User
+
+  @ManyToMany(() => User, (user) => user.likedPosts)
+  @JoinTable()
+  likedBy: User[]
 
   constructor(title: string, content: string, user: User) {
     super()
