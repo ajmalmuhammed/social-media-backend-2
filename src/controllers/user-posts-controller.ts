@@ -22,9 +22,47 @@ export const createPost = async (
 
     await connectDB.getRepository(Post).save(newPost)
 
-    const response = { success: true, post: newPost }
-    return res.status(200).json(response)
+    return res.json({ success: true, post: newPost })
   } catch (err) {
+    next(err)
+  }
+}
+
+export const deletePost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let transactionalEntityManager: EntityManager | null = null
+
+  try {
+    const { postId, authenticatedUser } = req.body
+
+    transactionalEntityManager = await startTransaction(connectDB)
+    const postRepository = transactionalEntityManager.getRepository(Post)
+    if (!postId) {
+      return next(new CustomError('InvalidInputDataError', 400))
+    }
+    const post = await postRepository.findOne({
+      where: { id: postId, deleted: false },
+    })
+    if (!post) {
+      return next(new CustomError('EntryNotFoundError', 400))
+    }
+
+    if (post.created_by_id === authenticatedUser.id) {
+      post.markAsDeleted()
+      await transactionalEntityManager.save(post)
+      // await transactionalEntityManager.delete(Post, { id: post.id })
+      await commitTransaction(transactionalEntityManager)
+      return res.send({ success: true })
+    } else {
+      next(new CustomError('NoPermissionError'))
+    }
+  } catch (err) {
+    if (transactionalEntityManager) {
+      await rollbackTransaction(transactionalEntityManager)
+    }
     next(err)
   }
 }
@@ -48,7 +86,7 @@ export const likePost = async (
       return next(new CustomError('InvalidInputDataError', 400))
     }
     const post = await postRepository.findOne({
-      where: { id: postId },
+      where: { id: postId, deleted: false },
       relations: ['likedBy'],
     })
     if (!post) {

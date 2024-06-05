@@ -38,6 +38,7 @@ const getSafeErrorMessage = (err: CustomError): string => {
     UserExistsError: 'User already registered. Please login',
     EntryNotFoundError: 'Entry not found. Please try with valid ID',
     AlreadyLikedError: 'User has already liked the post',
+    NoPermissionError: 'You dont have permission to do that operation',
   }
 
   const safeMessage = safeErrorMessages[err.message]

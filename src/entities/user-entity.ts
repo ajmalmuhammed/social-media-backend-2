@@ -14,7 +14,7 @@ export class User extends StandardEntity {
   @Column()
   lastName: string
 
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, (post) => post.created_by)
   posts: Post[]
 
   @ManyToMany(() => PostLike, (postlike) => postlike.user)
