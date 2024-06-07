@@ -10,6 +10,7 @@ import {
 } from '../utils/transaction-handler'
 import { PostLike } from '../entities/post-likes-entity'
 import { User } from '../entities/user-entity'
+import { Redis } from 'ioredis'
 
 export const createPost = async (
   req: Request,
@@ -53,7 +54,6 @@ export const deletePost = async (
     if (post.created_by_id === authenticatedUser.id) {
       post.markAsDeleted()
       await transactionalEntityManager.save(post)
-      // await transactionalEntityManager.delete(Post, { id: post.id })
       await commitTransaction(transactionalEntityManager)
       return res.send({ success: true })
     } else {
@@ -66,7 +66,38 @@ export const deletePost = async (
     next(err)
   }
 }
+export const getAllPosts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let transactionalEntityManager: EntityManager | null = null
+  try {
+    const redis = new Redis()
 
+    const { authenticatedUser } = req.body
+    const cachedPosts = await redis.get(`posts?user=${authenticatedUser.id}`)
+    if (cachedPosts) {
+      const posts = JSON.parse(cachedPosts)
+      return res.json({ success: true, posts })
+    }
+
+    transactionalEntityManager = await startTransaction(connectDB)
+    const posts = await transactionalEntityManager
+      .getRepository(Post)
+      .find({ where: { created_by_id: authenticatedUser.id, deleted: false } })
+
+    await redis.set(
+      `posts?user=${authenticatedUser.id}`,
+      JSON.stringify(posts),
+      'EX',
+      120
+    )
+    return res.json({ success: true, posts })
+  } catch (err) {
+    next(err)
+  }
+}
 export const likePost = async (
   req: Request,
   res: Response,
