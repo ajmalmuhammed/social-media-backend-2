@@ -7,8 +7,8 @@ import {
 } from '../controllers/user-posts-controller'
 
 const router = express.Router()
-router.post('/create-post', isLoggedIn, createPost)
-router.put('/like-post/:postId', isLoggedIn, likePost)
-router.delete('/delete-post', isLoggedIn, deletePost)
+router.post('/post/create', isLoggedIn, createPost)
+router.put('/post/like/:postId', isLoggedIn, likePost)
+router.delete('/post/delete', isLoggedIn, deletePost)
 
 export default router
