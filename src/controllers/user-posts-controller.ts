@@ -10,7 +10,7 @@ import {
 } from '../utils/transaction-handler'
 import { PostLike } from '../entities/post-likes-entity'
 import { User } from '../entities/user-entity'
-import { Redis } from 'ioredis'
+import redisClient from '../config/redis-config'
 
 export const createPost = async (
   req: Request,
@@ -73,10 +73,10 @@ export const getAllPosts = async (
 ) => {
   let transactionalEntityManager: EntityManager | null = null
   try {
-    const redis = new Redis()
-
     const { authenticatedUser } = req.body
-    const cachedPosts = await redis.get(`posts?user=${authenticatedUser.id}`)
+    const cachedPosts = await redisClient.get(
+      `posts?user=${authenticatedUser.id}`
+    )
     if (cachedPosts) {
       const posts = JSON.parse(cachedPosts)
       return res.json({ success: true, posts })
@@ -87,7 +87,7 @@ export const getAllPosts = async (
       .getRepository(Post)
       .find({ where: { created_by_id: authenticatedUser.id, deleted: false } })
 
-    await redis.set(
+    await redisClient.set(
       `posts?user=${authenticatedUser.id}`,
       JSON.stringify(posts),
       'EX',

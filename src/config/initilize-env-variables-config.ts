@@ -16,6 +16,7 @@ interface EnvVariables {
   INITIAL_VECTOR: string
   CRYPTO_PASSWORD: string
   JWT_SECRET: string
+  REDIS_HOST: string
 }
 
 // Load environment variables
@@ -39,6 +40,7 @@ const {
   INITIAL_VECTOR,
   CRYPTO_PASSWORD,
   JWT_SECRET,
+  REDIS_HOST,
 } = process.env
 
 if (
@@ -54,7 +56,8 @@ if (
   !EMAIL_PASSWORD ||
   !INITIAL_VECTOR ||
   !CRYPTO_PASSWORD ||
-  !JWT_SECRET
+  !JWT_SECRET ||
+  !REDIS_HOST
 ) {
   throw new Error('Required environment variables are missing.')
 }
@@ -73,4 +76,5 @@ export const envVariables: EnvVariables = {
   INITIAL_VECTOR,
   CRYPTO_PASSWORD,
   JWT_SECRET,
+  REDIS_HOST,
 }
