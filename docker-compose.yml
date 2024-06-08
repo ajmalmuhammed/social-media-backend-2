@@ -12,10 +12,7 @@ services:
       - db:/var/lib/mysql
     networks:
       - local_network
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      timeout: 5s
-      retries: 1
+
   redis:
     image: 'redis:alpine'
     ports:
@@ -28,9 +25,6 @@ services:
     container_name: social-media-container
     restart: always
     env_file: .env
-    depends_on:
-      mysqldb:
-        condition: service_healthy
     ports:
       - ${PORT}:${PORT}
     environment:
