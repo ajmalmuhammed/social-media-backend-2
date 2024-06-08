@@ -28,7 +28,7 @@ export const login = async (
 
     if (user) {
       const { otp, encryptedData } = await generateOTPAndEncode(emailId)
-      // await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
+      await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
 
       return res.send({ success: true, key: encryptedData })
     } else {
@@ -77,7 +77,7 @@ export const register = async (
     }
 
     const { otp, encryptedData } = await generateOTPAndEncode(emailId)
-    // await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
+    await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
     console.log('This is the OTP', otp)
 
     return res.send({ success: true, key: encryptedData })
