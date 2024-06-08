@@ -23,7 +23,7 @@ const connectDB = new DataSource({
   database: envVariables.DB_NAME,
   // logging: true,
   synchronize: true,
-  entities: ['./dist/entities/*.ts'],
+  entities: ['./dist/entities/*.js'],
   extra: {
     ssl: {
       rejectUnauthorized: false,
