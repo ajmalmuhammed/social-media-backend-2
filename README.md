@@ -22,15 +22,13 @@ If you dont have docker then follow the below steps:
 ```bash
     npm install 
 ```
-
-    
-## Deployment
-
-To start the api run
-
+- And run the following command to start the server 
 ```bash
-  npm run start
-```
+    npm run start
+``` 
+    
+
+
 
 
 ## How to use
