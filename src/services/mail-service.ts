@@ -24,7 +24,6 @@ export async function sendEmail(type: string, emailId: string, otp: string) {
 
   //Choosing the message template based on type of request
 
-  console.log('This is a ', type)
   if (type == emailTypeEnum.VERIFY) {
     messageBody = getVerifyEmailMessageBody(otp)
     messageSubject = verifyEmailSubject

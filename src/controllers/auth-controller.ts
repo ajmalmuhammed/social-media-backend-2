@@ -78,7 +78,6 @@ export const register = async (
 
     const { otp, encryptedData } = await generateOTPAndEncode(emailId)
     await sendEmail(emailTypeEnum.VERIFY, emailId, otp)
-    console.log('This is the OTP', otp)
 
     return res.send({ success: true, key: encryptedData })
   } catch (err: any) {
@@ -122,6 +121,5 @@ export async function generateOTPAndEncode(emailId: string) {
 
   // Encrypt the details object
   const encryptedData = await encode(JSON.stringify(details))
-  console.log('This is the OTP', otp)
   return { otp, encryptedData }
 }

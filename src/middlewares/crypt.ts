@@ -11,7 +11,6 @@ export async function encode(text: string) {
   let cipher = crypto.createCipheriv(algorithm, key, iv)
   let part1 = cipher.update(text, 'utf8')
   let part2 = cipher.final()
-  console.log('KEY IS', key)
   const encrypted = Buffer.concat([part1, part2]).toString('base64')
   return encrypted
 }
