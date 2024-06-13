@@ -1,0 +1,408 @@
+{
+	"info": {
+		"_postman_id": "fc3b4c68-550b-416c-b663-96d76d89f4d8",
+		"name": "social-media-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6641373"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"verification_key\",response.key);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"emailId\": \"muhammedajmal54+1@gmail.com\",\r\n    \"firstName\": \"Muhammed\",\r\n    \"lastName\": \"Ajmal\"\r\n\r\n   \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/register",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"verification_key\",response.key);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"emailId\": \"muhammedajmal54+21@gmail.com\"\r\n\r\n   \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/login",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify-otp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"verification_key\" : \"{{verification_key}}\",\r\n    \"otp\": \"789933\",\r\n    \"emailId\" : \"muhammedajmal54+21@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/verify",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "cookie",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11aGFtbWVkYWptYWw1NCsxQGdtYWlsLmNvbSIsInVzZXJJZCI6MywiaWF0IjoxNzE3NTExNjc5LCJleHAiOjE3MTk2NzE2Nzl9.8-xtU64IByzRT9bV_fyQqGpdwAW9Rm7x2-95vCDypC0"
+					},
+					{
+						"key": "cookie",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElkIjoibXVoYW1tZWRham1hbDU0KzIxQGdtYWlsLmNvbSIsInVzZXJJZCI6MywiaWF0IjoxNzE4MjA5OTIwLCJleHAiOjE3MjAzNjk5MjB9.aFzQAJ_qnJISN7JiwzcPGtiJod7Mi9I1ykk3TCo_jUU",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"emailId\" : \"muhammedajmal54+21@gmail.com\",\r\n    \"userId\": 1,\r\n    \"lastName\": \"Ajmal-last\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/update-profile",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"update-profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-post",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "cookie",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElkIjoibXVoYW1tZWRham1hbDU0KzIxQGdtYWlsLmNvbSIsInVzZXJJZCI6MywiaWF0IjoxNzE4MjA5OTIwLCJleHAiOjE3MjAzNjk5MjB9.aFzQAJ_qnJISN7JiwzcPGtiJod7Mi9I1ykk3TCo_jUU"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"title\" : \"Test post 1\",\r\n    \"content\": \"This is my second post in social media\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/post/create",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"post",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-posts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"title\" : \"ajmal1\",\r\n    \"content\": \"first post of india\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/post/get-all",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"post",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"title\" : \"ajmal1\",\r\n    \"content\": \"first post of india\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "like-post",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/post/like/:postId",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"post",
+						"like",
+						":postId"
+					],
+					"variable": [
+						{
+							"key": "postId",
+							"value": "33"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-post",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"postId\" : 5\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}:{{port}}/api/post/delete",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"post",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost"
+		},
+		{
+			"key": "port",
+			"value": "3006"
+		},
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
